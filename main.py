@@ -186,7 +186,7 @@ if page == "Survey":
 
                 if st.button("Start"):
                     st.session_state.qnum = 1
-                    updateuser(loginid, "Status", "Q1")
+                    savedata()
 
         elif st.session_state.qnum == 1:
 
@@ -198,19 +198,21 @@ if page == "Survey":
                 choice = st.radio("Do you switch them?", questions["Q1"]["options"])
                 
                 if st.button("Next"):
-                    savedata()
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
+                    savedata()
 
                 try:
                     time.sleep(10)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
+                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
-                    
+                    savedata()
+
         elif st.session_state.qnum == 2:
 
             with st.container():
@@ -221,18 +223,20 @@ if page == "Survey":
                 choice = st.radio("Do you kill the kittens, or let the couple die?", questions["Q2"]["options"])
                 
                 if st.button("Next"):
-                    savedata()
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    savedata()
 
                 try:
                     time.sleep(10)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    savedata()
 
         elif st.session_state.qnum == 3:
 
@@ -244,18 +248,20 @@ if page == "Survey":
                 choice = st.radio("Do you push the child?", questions["Q3"]["options"])
                 
                 if st.button("Next"):
-                    savedata()
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q3", choice)
+                    savedata()
 
                 try:
                     time.sleep(15)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q3", choice)
+                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q3", choice)
+                    savedata()
 
         else:
 
