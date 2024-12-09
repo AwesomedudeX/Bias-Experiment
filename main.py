@@ -63,7 +63,7 @@ def updateuser(userid, col, value):
             data[col][i] = value
 
 pages = {
-    "Admin": ["Controls", "Statistics", "Data", "Tested Biases"],
+    "Admin": ["Controls", "Data", "Tested Biases"],
     "User": ["Home", "Survey"]
 }
 
@@ -71,19 +71,19 @@ questions = {
 
     "Q1": {
         "question": "Death By Train",
-        "desc": "A train is heading towards an old couple, who are trying to slowly cross the tracks. On another set of tracks is a litter of 10 kittens. You are a good distance away, close enough to see them, but too far to be heard. Right next to you, there is a lever to switch the tracks. Do you switch them?",
+        "desc": "A train is heading towards an old couple, who are trying to slowly cross the tracks. On another set of tracks is a litter of 10 kittens. You are a good distance away, close enough to see them, but too far to be heard. Right next to you, there is a lever to switch the tracks.",
         "options": ["No", "Yes"]
     },
 
     "Q2": {
         "question": "Killed By A Train",
-        "desc": "A train is heading towards an old couple, who are trying to slowly cross the tracks. On another set of tracks is a litter of 10 kittens. You are a good distance away, close enough to see them, but too far to be heard. Right next to you, there is a lever to switch the tracks. Do you kill the kittens, or let the couple die?",
+        "desc": "A train is heading towards an old couple, who are trying to slowly cross the tracks. On another set of tracks is a litter of 10 kittens. You are a good distance away, close enough to see them, but too far to be heard. Right next to you, there is a lever to switch the tracks.",
         "options": ["Let the couple die", "Kill the kittens"]
     },
 
     "Q3": {
         "question": "Killed By Bystander",
-        "desc": "You are standing on a bridge, which extends over a road. Below, there is a car - with a family of 4 - on a direct collision course with a drunk driver's car going the opposite direction. On the bridge, there is a child sitting on the railing, their parents nowhere in sight. You know that if you push the child down, the family will swerve out of the way in time to avoid the drunk driver, but the child will surely die. Do you push the child?",
+        "desc": "You are standing on a bridge, which extends over a road. Below, there is a car - with a family of 4 - on a direct collision course with a drunk driver's car going the opposite direction. On the bridge, there is a child sitting on the railing, their parents nowhere in sight. You know that if you push the child down, the family will swerve out of the way in time to avoid the drunk driver, but the child will surely die.",
         "options": ["Let the family die", "Push the child", "Sacrifice yourself (jump)"]
     },
 
@@ -165,45 +165,101 @@ if page == "Home":
 
 if page == "Survey":
 
-    empty = st.empty()
+    with st.empty():
 
-    if st.session_state.qnum == 0:
+        if st.session_state.qnum == 0:
 
-        with empty.container():
+            with st.container():
 
-            st.title("Bias Experiment Survey")
+                st.title("Bias Experiment Survey")
 
-            st.write("**This will be a short survey, consisting of 3 questions, with no breaks in between.**")
-            st.write("**You will have 10 seconds to answer each one. Put in your answer and hit \"Submit\"**")
-            st.write("**Don't think too hard; just do what you feel is best in that scenario.**")
-            st.write("When you are ready, hit Ready.")
-
-
-            if st.button("Ready"):
-                updateuser(loginid, "Status", "Ready")
-                print(data)
-                savedata()
-
-    else:
-        
-        with empty.container():
-
-            if st.session_state.qnum == 1:
-
-                st.title(questions["Q1"])
+                st.write("**This will be a short survey, consisting of 3 questions, with no breaks in between.**")
+                st.write("**You will have 10 seconds to answer the first two, and 15 seconds for the last one. Put in your answer and hit \"Submit\"**")
+                st.write("**Don't think too hard; just do what you feel is best in that scenario.**")
+                st.write("When you are ready, hit Ready. I will tell you when to start. When I do, hit Start.")
 
 
+                if st.button("Ready"):
+                    updateuser(loginid, "Status", "Ready")
+                    print(data)
+                    savedata()
 
-if page == "Statistics":
-    
-    for q in questions:
+                if st.button("Start"):
+                    st.session_state.qnum = 1
+                    updateuser(loginid, "Status", "Q1")
 
-        st.header(questions[q]['question'])
+        elif st.session_state.qnum == 1:
 
-        st.write(questions[q]["desc"])
-        
-        for o in questions[q]['options']:
-            st.write(f"**{o}: {'NaN'}%**")
+            with st.container():
+
+                st.title(questions["Q1"]["question"])
+                st.write(questions["Q1"]["desc"])
+
+                choice = st.radio("Do you switch them?", questions["Q1"]["options"])
+                
+                if st.button("Next"):
+                    savedata()
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q1", choice)
+
+                try:
+                    time.sleep(10)
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q1", choice)
+
+                except:
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q1", choice)
+                    
+        elif st.session_state.qnum == 2:
+
+            with st.container():
+
+                st.title(questions["Q2"]["question"])
+                st.write(questions["Q2"]["desc"])
+                
+                choice = st.radio("Do you kill the kittens, or let the couple die?", questions["Q2"]["options"])
+                
+                if st.button("Next"):
+                    savedata()
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q2", choice)
+
+                try:
+                    time.sleep(10)
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q2", choice)
+
+                except:
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q2", choice)
+
+        elif st.session_state.qnum == 3:
+
+            with st.container():
+
+                st.title(questions["Q3"]["question"])
+                st.write(questions["Q3"]["desc"])
+                
+                choice = st.radio("Do you push the child?", questions["Q3"]["options"])
+                
+                if st.button("Next"):
+                    savedata()
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q3", choice)
+
+                try:
+                    time.sleep(15)
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q3", choice)
+
+                except:
+                    st.session_state.qnum += 1
+                    updateuser(loginid, "Q3", choice)
+
+        else:
+
+            st.title("Survey Complete.")
 
 if page == "Data":
     
@@ -215,12 +271,7 @@ if page == "Controls":
 
     st.title("Survey Controls")
 
-    st.write(f"**Current Question: {st.session_state.qnum}**")
-
     c1, c2 = st.columns(2)
-
-    prev = c1.button("Previous Question", use_container_width=True)
-    next = c2.button("Next Question", use_container_width=True)
 
     c1a, c1b = c1.columns(2)
 
@@ -234,7 +285,10 @@ if page == "Controls":
             "Surname": [],
             "Name": [],
             "Gender": [],
-            "Age": []
+            "Age": [],
+            "Q1": [],
+            "Q2": [],
+            "Q3": []
         }
         savedata()
 
@@ -264,12 +318,6 @@ if page == "Controls":
 
                     for col in data:
                         data[col].pop(i)
-
-    if next:
-        st.session_state.qnum += 1
-
-    if prev and st.session_state.qnum > 0:
-        st.session_state.qnum -= 1
 
     st.write("---")
     st.header("Experiment QR Code")
