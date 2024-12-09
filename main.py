@@ -57,7 +57,7 @@ pages = {
     "User": ["Home", "Survey"]
 }
 
-st.session_state.questions = {
+questions = {
 
     "Q1": {
         "question": "Death By Train",
@@ -118,6 +118,13 @@ else:
     
 page = nav.strip("**")
 
+def updateuser(id, col, value):
+
+    for i in range(len(data["ID"])):
+        if data["ID"][i] == id:
+            data[col][i] = value
+
+
 if page == "Home":
 
     st.title("Cognitive Biases")
@@ -152,15 +159,41 @@ if page == "Home":
         if loginsuccess:
             savedata()
 
+if page == "Survey":
+
+    empty = st.empty()
+
+    if st.session_state.qnum == 0:
+
+        with empty.container():
+
+            st.title("Bias Experiment Survey")
+
+            st.write("**This will be a short survey, consisting of 3 questions.**")
+            st.write("**You will have 5 seconds to answer each one.**")
+            st.write("**Don't think too hard; just do what you feel is best in that scenario.**")
+            st.write("When you are ready, hit Ready.")
+
+
+            if st.checkbox("Ready"):
+                updateuser(id, "Status", "Ready")
+                print(data)
+                savedata()
+
+    elif st.session_state.qnum == 1:
+        
+        with empty.container():
+            st.write("")
+
 if page == "Statistics":
     
-    for q in st.session_state.questions:
+    for q in questions:
 
-        st.header(st.session_state.questions[q]['question'])
+        st.header(questions[q]['question'])
 
-        st.write(st.session_state.questions[q]["desc"])
+        st.write(questions[q]["desc"])
         
-        for o in st.session_state.questions[q]['options']:
+        for o in questions[q]['options']:
             st.write(f"**{o}: {'NaN'}%**")
 
 if page == "Data":
@@ -228,6 +261,11 @@ if page == "Controls":
 
     if prev and st.session_state.qnum > 0:
         st.session_state.qnum -= 1
+
+    st.write("---")
+    st.header("Experiment QR Code")
+    st.write("---")
+    st.image("qrcode.jpeg", width=500)
 
 if page == "Tested Biases":
     st.title("Tested Biases")
