@@ -52,6 +52,16 @@ def savedata():
     open("src.py", "w").write(f"data = {data}")
     df = pd.DataFrame.from_dict(data)
 
+def updateuser(userid, col, value):
+
+    print(data["ID"])
+    print(userid)
+
+    for i in range(len(data["ID"])):
+        if data["ID"][i] == userid:
+            print("ID FOUND")
+            data[col][i] = value
+
 pages = {
     "Admin": ["Controls", "Statistics", "Data", "Tested Biases"],
     "User": ["Home", "Survey"]
@@ -118,12 +128,6 @@ else:
     
 page = nav.strip("**")
 
-def updateuser(id, col, value):
-
-    for i in range(len(data["ID"])):
-        if data["ID"][i] == id:
-            data[col][i] = value
-
 
 if page == "Home":
 
@@ -147,14 +151,14 @@ if page == "Home":
 
         if submit:
             
-            id = "".join([str(random.randint(1, 9)) for i in range(3)])
+            uid = "".join([str(random.randint(1, 9)) for i in range(3)])
             
-            newdata = ["Logged In", id, lastname, firstname, gender, age, 0, 0, 0, 0, 0]
+            newdata = ["Logged In", uid, lastname, firstname, gender, age, 0, 0, 0, 0, 0]
 
             for i in range(len(data)):
                 data[list(data.keys())[i]].append(newdata[i])
             
-            st.write(f"**User ID: {id}**")
+            st.write(f"**User ID: {uid}**")
 
         if loginsuccess:
             savedata()
@@ -169,21 +173,26 @@ if page == "Survey":
 
             st.title("Bias Experiment Survey")
 
-            st.write("**This will be a short survey, consisting of 3 questions.**")
-            st.write("**You will have 5 seconds to answer each one.**")
+            st.write("**This will be a short survey, consisting of 3 questions, with no breaks in between.**")
+            st.write("**You will have 10 seconds to answer each one. Put in your answer and hit \"Submit\"**")
             st.write("**Don't think too hard; just do what you feel is best in that scenario.**")
             st.write("When you are ready, hit Ready.")
 
 
-            if st.checkbox("Ready"):
-                updateuser(id, "Status", "Ready")
+            if st.button("Ready"):
+                updateuser(loginid, "Status", "Ready")
                 print(data)
                 savedata()
 
-    elif st.session_state.qnum == 1:
+    else:
         
         with empty.container():
-            st.write("")
+
+            if st.session_state.qnum == 1:
+
+                st.title(questions["Q1"])
+
+
 
 if page == "Statistics":
     
@@ -265,7 +274,7 @@ if page == "Controls":
     st.write("---")
     st.header("Experiment QR Code")
     st.write("---")
-    st.image("qrcode.jpeg", width=500)
+    st.image("qrcode.jpeg", width=600)
 
 if page == "Tested Biases":
     st.title("Tested Biases")
