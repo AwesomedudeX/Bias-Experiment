@@ -174,7 +174,7 @@ if page == "Survey":
                 st.title("Bias Experiment Survey")
 
                 st.write("**This will be a short survey, consisting of 3 questions, with no breaks in between.**")
-                st.write("**You will have 10 seconds to answer the first two, and 15 seconds for the last one. Put in your answer and hit \"Submit\"**")
+                st.write("**You will have 15 seconds to answer the first two, and 20 seconds for the last one. Put in your answer and hit \"Submit\"**")
                 st.write("**Don't think too hard; just do what you feel is best in that scenario.**")
                 st.write("When you are ready, hit Ready. I will tell you when to start. When I do, hit Start.")
 
@@ -203,7 +203,7 @@ if page == "Survey":
                     savedata()
 
                 try:
-                    time.sleep(10)
+                    time.sleep(15)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
                     savedata()
@@ -228,7 +228,7 @@ if page == "Survey":
                     savedata()
 
                 try:
-                    time.sleep(10)
+                    time.sleep(15)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
                     savedata()
@@ -253,7 +253,7 @@ if page == "Survey":
                     savedata()
 
                 try:
-                    time.sleep(15)
+                    time.sleep(20)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q3", choice)
                     savedata()
