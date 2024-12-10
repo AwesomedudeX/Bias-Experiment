@@ -181,11 +181,6 @@ if page == "Survey":
 
                 choice = st.radio("Do you switch them?", questions["Q1"]["options"])
                 
-                if st.button("Next"):
-                    updateuser(loginid, "Q1", choice)
-                    savedata()
-                    st.session_state.qnum += 1
-
                 try:
                     time.sleep(15)
                     updateuser(loginid, "Q1", choice)
@@ -206,11 +201,6 @@ if page == "Survey":
                 
                 choice = st.radio("Do you kill the kittens, or let the couple die?", questions["Q2"]["options"])
                 
-                if st.button("Next"):
-                    updateuser(loginid, "Q2", choice)
-                    savedata()
-                    st.session_state.qnum += 1
-
                 try:
                     time.sleep(15)
                     updateuser(loginid, "Q2", choice)
@@ -231,11 +221,6 @@ if page == "Survey":
                 
                 choice = st.radio("Do you push the child?", questions["Q3"]["options"])
                 
-                if st.button("Next"):
-                    updateuser(loginid, "Q3", choice)
-                    savedata()
-                    st.session_state.qnum += 1
-
                 try:
                     time.sleep(15)
                     updateuser(loginid, "Q3", choice)
