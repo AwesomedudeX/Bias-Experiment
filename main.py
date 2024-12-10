@@ -243,23 +243,20 @@ if page == "Survey":
                 if st.button("Next"):
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
-                    savedata()
 
                 try:
                     time.sleep(20)
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
-                    savedata()
 
                 except:
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
-                    savedata()
 
         else:
 
-            st.title("Survey Complete.")
             savedata()
+            st.title("Survey Complete.")
 
 if page == "Data":
     
