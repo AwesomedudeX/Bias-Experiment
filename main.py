@@ -162,7 +162,7 @@ if page == "Survey":
                 st.write("**This will be a short survey, consisting of 3 questions, with no breaks in between.**")
                 st.write("**You will have 15 seconds to answer the first two, and 20 seconds for the last one. Put in your answer and hit \"Submit\"**")
                 st.write("**Don't think too hard; just do what you feel is best in that scenario.**")
-                st.write("When you are ready, hit Ready. I will tell you when to start. When I do, hit Start - you may have to hit it twice for it to work.")
+                st.write("When you are ready, hit Ready. I will tell you when to start. When I do, hit Start - you may have to hit some buttons twice for them to work.")
 
 
                 if st.button("Ready"):
@@ -182,18 +182,18 @@ if page == "Survey":
                 choice = st.radio("Do you switch them?", questions["Q1"]["options"])
                 
                 if st.button("Next"):
-                    st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
+                    st.session_state.qnum += 1
 
                 try:
                     time.sleep(15)
-                    st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
+                    st.session_state.qnum += 1
                     savedata()
 
                 except:
-                    st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
+                    st.session_state.qnum += 1
                     savedata()
 
         elif st.session_state.qnum == 2:
@@ -206,18 +206,18 @@ if page == "Survey":
                 choice = st.radio("Do you kill the kittens, or let the couple die?", questions["Q2"]["options"])
                 
                 if st.button("Next"):
-                    st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    st.session_state.qnum += 1
 
                 try:
                     time.sleep(15)
-                    st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    st.session_state.qnum += 1
                     savedata()
 
                 except:
-                    st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    st.session_state.qnum += 1
                     savedata()
 
         elif st.session_state.qnum == 3:
@@ -234,7 +234,7 @@ if page == "Survey":
                     st.session_state.qnum += 1
 
                 try:
-                    time.sleep(20)
+                    time.sleep(15)
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
                     savedata()
