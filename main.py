@@ -177,7 +177,7 @@ if page == "Survey":
                 st.write("**This will be a short survey, consisting of 3 questions, with no breaks in between.**")
                 st.write("**You will have 15 seconds to answer the first two, and 20 seconds for the last one. Put in your answer and hit \"Submit\"**")
                 st.write("**Don't think too hard; just do what you feel is best in that scenario.**")
-                st.write("When you are ready, hit Ready. I will tell you when to start. When I do, hit Start.")
+                st.write("When you are ready, hit Ready. I will tell you when to start. When I do, hit Start - you may have to hit it twice for it to work.")
 
 
                 if st.button("Ready"):
@@ -204,10 +204,12 @@ if page == "Survey":
                     time.sleep(15)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
+                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
+                    savedata()
 
         elif st.session_state.qnum == 2:
 
@@ -226,10 +228,12 @@ if page == "Survey":
                     time.sleep(15)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
+                    savedata()
 
         elif st.session_state.qnum == 3:
 
@@ -248,14 +252,15 @@ if page == "Survey":
                     time.sleep(20)
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
+                    savedata()
 
                 except:
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
+                    savedata()
 
         else:
 
-            savedata()
             st.title("Survey Complete.")
 
 if page == "Data":
