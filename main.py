@@ -182,11 +182,9 @@ if page == "Survey":
                 if st.button("Ready"):
                     updateuser(loginid, "Status", "Ready")
                     print(data)
-                    savedata()
 
                 if st.button("Start"):
                     st.session_state.qnum = 1
-                    savedata()
 
         elif st.session_state.qnum == 1:
 
@@ -200,18 +198,15 @@ if page == "Survey":
                 if st.button("Next"):
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
-                    savedata()
 
                 try:
                     time.sleep(15)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
-                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q1", choice)
-                    savedata()
 
         elif st.session_state.qnum == 2:
 
@@ -225,18 +220,15 @@ if page == "Survey":
                 if st.button("Next"):
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
-                    savedata()
 
                 try:
                     time.sleep(15)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
-                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q2", choice)
-                    savedata()
 
         elif st.session_state.qnum == 3:
 
@@ -250,22 +242,20 @@ if page == "Survey":
                 if st.button("Next"):
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q3", choice)
-                    savedata()
 
                 try:
                     time.sleep(20)
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q3", choice)
-                    savedata()
 
                 except:
                     st.session_state.qnum += 1
                     updateuser(loginid, "Q3", choice)
-                    savedata()
 
         else:
 
             st.title("Survey Complete.")
+            savedata()
 
 if page == "Data":
     
