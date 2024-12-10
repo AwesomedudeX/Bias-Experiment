@@ -183,14 +183,14 @@ if page == "Survey":
                 
                 try:
                     time.sleep(15)
-                    updateuser(loginid, "Q1", choice)
-                    savedata()
+                    updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
+                    savedata()
 
                 except:
-                    updateuser(loginid, "Q1", choice)
-                    savedata()
+                    updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
+                    savedata()
 
         elif st.session_state.qnum == 2:
 
@@ -203,14 +203,14 @@ if page == "Survey":
                 
                 try:
                     time.sleep(15)
-                    updateuser(loginid, "Q2", choice)
-                    savedata()
+                    updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
+                    savedata()
 
                 except:
-                    updateuser(loginid, "Q2", choice)
-                    savedata()
+                    updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
+                    savedata()
 
         elif st.session_state.qnum == 3:
 
@@ -224,13 +224,13 @@ if page == "Survey":
                 try:
                     time.sleep(15)
                     updateuser(loginid, "Q3", choice)
-                    savedata()
                     st.session_state.qnum += 1
+                    savedata()
 
                 except:
                     updateuser(loginid, "Q3", choice)
-                    savedata()
                     st.session_state.qnum += 1
+                    savedata()
 
         else:
 
