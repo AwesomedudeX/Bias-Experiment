@@ -52,6 +52,12 @@ def updateuser(userid, col, value):
             print("ID FOUND")
             st.session_state.data[col][i] = value
 
+def savedata():
+    open("src.py", "w").write(f"data = {st.session_state.data}")
+    import src
+    st.session_state.data = src.data
+    df = pd.DataFrame().from_dict(st.session_state.data)
+
 pages = {
     "Admin": ["Controls", "Data", "Tested Biases"],
     "User": ["Home", "Survey"]
@@ -150,9 +156,10 @@ if page == "Home":
             try:
                 st.write(f"**User ID: {uid}**")
                 time.sleep(10)
+                savedata()
                 
             except:
-                pass
+                savedata()
 
 if page == "Survey":
 
@@ -264,7 +271,7 @@ if page == "Controls":
     c1, c2, c3 = st.columns(3)
 
     if c1.button("Clear System Log", use_container_width=True):
-        os.system("clear")
+        os.system("cls")
     
     if c2.button("Clear Data", use_container_width=True):
         st.session_state.data = {
