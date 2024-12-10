@@ -264,7 +264,7 @@ if page == "Controls":
     c1, c2, c3 = st.columns(3)
 
     if c1.button("Clear System Log", use_container_width=True):
-        os.system("cls")
+        os.system("clear")
     
     if c2.button("Clear Data", use_container_width=True):
         st.session_state.data = {
