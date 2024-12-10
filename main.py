@@ -183,6 +183,7 @@ if page == "Survey":
                 
                 if st.button("Next"):
                     updateuser(loginid, "Q1", choice)
+                    savedata()
                     st.session_state.qnum += 1
 
                 try:
@@ -207,6 +208,7 @@ if page == "Survey":
                 
                 if st.button("Next"):
                     updateuser(loginid, "Q2", choice)
+                    savedata()
                     st.session_state.qnum += 1
 
                 try:
@@ -231,6 +233,7 @@ if page == "Survey":
                 
                 if st.button("Next"):
                     updateuser(loginid, "Q3", choice)
+                    savedata()
                     st.session_state.qnum += 1
 
                 try:
