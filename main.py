@@ -114,7 +114,7 @@ else:
             if data["ID"][i] == loginid:
                 loginsuccess = True
                 login.write(f"**Logged in as Test Subject.**\n\n**Welcome, :green[{data['Name'][i]} {data['Surname'][i]}].**")
-
+                savedata()
 
         if not loginsuccess:
             login.write("**:red[INVALID ID.]**")
@@ -159,9 +159,6 @@ if page == "Home":
                 data[list(data.keys())[i]].append(newdata[i])
             
             st.write(f"**User ID: {uid}**")
-
-        if loginsuccess:
-            savedata()
 
 if page == "Survey":
 
