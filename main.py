@@ -29,24 +29,9 @@ if "admin" not in st.session_state:
     st.session_state.admin = False
     st.session_state.qnum = 0
 
-try:
-    import src
-    data = src.data
-    df = pd.DataFrame().from_dict(data)
-
-except:
-    data = {
-        "Status": [],
-        "ID": [],
-        "Surname": [],
-        "Name": [],
-        "Gender": [],
-        "Age": [],
-        "Q1": [],
-        "Q2": [],
-        "Q3": []
-    }
-    open("src.py", "w").write(f"data = {data}")
+import src
+data = src.data
+df = pd.DataFrame().from_dict(data)
 
 def savedata():
     open("src.py", "w").write(f"data = {data}")
