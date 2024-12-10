@@ -157,13 +157,12 @@ if page == "Home":
             for i in range(len(data)):
                 data[list(data.keys())[i]].append(newdata[i])
 
-            savedata()
-
             try:
                 st.write(f"**User ID: {uid}**")
                 time.sleep(10)
+                savedata()
             except:
-                pass
+                savedata()
 
 if page == "Survey":
 
