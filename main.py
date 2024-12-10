@@ -24,11 +24,18 @@ st.set_page_config("Cognitive Biases Experiment", None, "wide", "expanded")
 
 sidebar = st.sidebar
 
-if ["admin", "qnum", "data"] not in st.session_state:
+if "admin" not in st.session_state:
 
     st.session_state.admin = False
     st.session_state.qnum = 0
-    st.session_state.data = {
+
+try:
+    import src
+    data = src.data
+    df = pd.DataFrame().from_dict(data)
+
+except:
+    data = {
         "Status": [],
         "ID": [],
         "Surname": [],
@@ -39,24 +46,21 @@ if ["admin", "qnum", "data"] not in st.session_state:
         "Q2": [],
         "Q3": []
     }
+    open("src.py", "w").write(f"data = {data}")
 
-df = pd.DataFrame().from_dict(st.session_state.data)
+def savedata():
+    open("src.py", "w").write(f"data = {data}")
+    df = pd.DataFrame.from_dict(data)
 
 def updateuser(userid, col, value):
 
-    print(st.session_state.data["ID"])
+    print(data["ID"])
     print(userid)
 
-    for i in range(len(st.session_state.data["ID"])):
-        if st.session_state.data["ID"][i] == userid:
+    for i in range(len(data["ID"])):
+        if data["ID"][i] == userid:
             print("ID FOUND")
-            st.session_state.data[col][i] = value
-
-def savedata():
-    open("src.py", "w").write(f"data = {st.session_state.data}")
-    import src
-    st.session_state.data = src.data
-    df = pd.DataFrame().from_dict(st.session_state.data)
+            data[col][i] = value
 
 pages = {
     "Admin": ["Controls", "Data", "Tested Biases"],
@@ -105,11 +109,11 @@ else:
 
     if loginid != "":
 
-        for i in range(len(st.session_state.data["ID"])):
+        for i in range(len(data["ID"])):
             
-            if st.session_state.data["ID"][i] == loginid:
+            if data["ID"][i] == loginid:
                 loginsuccess = True
-                login.write(f"**Logged in as Test Subject.**\n\n**Welcome, :green[{st.session_state.data['Name'][i]} {st.session_state.data['Surname'][i]}].**")
+                login.write(f"**Logged in as Test Subject.**\n\n**Welcome, :green[{data['Name'][i]} {data['Surname'][i]}].**")
 
         if not loginsuccess:
             login.write("**:red[INVALID ID.]**")
@@ -150,14 +154,13 @@ if page == "Home":
             
             newdata = ["Logged In", uid, lastname, firstname, gender, age, 0, 0, 0, 0, 0]
 
-            for i in range(len(st.session_state.data)):
-                st.session_state.data[list(st.session_state.data.keys())[i]].append(newdata[i])
+            for i in range(len(data)):
+                data[list(data.keys())[i]].append(newdata[i])
 
             try:
                 st.write(f"**User ID: {uid}**")
                 time.sleep(10)
                 savedata()
-                
             except:
                 savedata()
 
@@ -179,7 +182,7 @@ if page == "Survey":
 
                 if st.button("Ready"):
                     updateuser(loginid, "Status", "Ready")
-                    print(st.session_state.data)
+                    print(data)
 
                 if st.button("Start"):
                     st.session_state.qnum = 1
@@ -240,41 +243,43 @@ if page == "Survey":
                 if st.button("Next"):
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
-                    
+                    savedata()
 
                 try:
                     time.sleep(20)
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
-                    
+                    savedata()
 
                 except:
                     updateuser(loginid, "Q3", choice)
                     st.session_state.qnum += 1
-                    
+                    savedata()
 
         else:
 
             st.title("Survey Complete.")
-            
+            savedata()
 
 if page == "Data":
     
     st.subheader("Test Data")
-    st.write(f"**Total Participants: {len(st.session_state.data['ID'])}**")
-    st.dataframe(st.session_state.data , hide_index=True, use_container_width=True)
+    st.write(f"**Total Participants: {len(data['ID'])}**")
+    st.dataframe(data, hide_index=True, use_container_width=True)
 
 if page == "Controls":
 
     st.title("Survey Controls")
 
-    c1, c2, c3 = st.columns(3)
+    c1, c2 = st.columns(2)
 
-    if c1.button("Clear System Log", use_container_width=True):
+    c1a, c1b = c1.columns(2)
+
+    if c1a.button("Clear System Log", use_container_width=True):
         os.system("cls")
     
-    if c2.button("Clear Data", use_container_width=True):
-        st.session_state.data = {
+    if c1b.button("Clear Data", use_container_width=True):
+        data = {
             "Status": [],
             "ID": [],
             "Surname": [],
@@ -285,9 +290,15 @@ if page == "Controls":
             "Q2": [],
             "Q3": []
         }
-        
+        savedata()
 
-    remove = c3.expander("**:red[Remove a Participant]**")
+    c2a, c2b = c2.columns(2)
+
+
+    if c2a.button("Save Data", use_container_width=True):
+        savedata()
+
+    remove = c2b.expander("**:red[Remove a Participant]**")
     removeid = remove.text_input("Participant ID:", max_chars=3)
     removeuser = remove.button("Remove Participant", use_container_width=True)
     removesuccess = False
@@ -296,17 +307,17 @@ if page == "Controls":
         
         if len(df) == 1:
 
-            for col in st.session_state.data :
-                st.session_state.data[col] = []
+            for col in data:
+                data[col] = []
         
         else:
 
-            for i in range(len(st.session_state.data["ID"])-1):
+            for i in range(len(data["ID"])-1):
                 
-                if removeid == st.session_state.data["ID"][i]:
+                if removeid == data["ID"][i]:
 
-                    for col in st.session_state.data :
-                        st.session_state.data[col].pop(i)
+                    for col in data:
+                        data[col].pop(i)
 
     st.write("---")
     st.header("Experiment QR Code")
